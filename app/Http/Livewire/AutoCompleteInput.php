@@ -30,6 +30,8 @@ class AutoCompleteInput extends Component
     public ?int $prevOffset = null;
     public bool $hasLoadMore = false;
 
+    public ?int $hoveringIndex = null;
+
     public function mount(string $input_name, mixed $source, array $options = []) {
         if(is_array($source)) {
             $this->passedData = collect($source);
@@ -49,6 +51,7 @@ class AutoCompleteInput extends Component
     public function updatedInput($input)
     {
         $this->resetPrevOffset();
+        $this->resetHoveringIndex();
 
         if(strlen($input) < $this->getOption('min_chars')) {
             $this->hideResultBox();
@@ -59,15 +62,39 @@ class AutoCompleteInput extends Component
         $this->showResultBox();
     }
 
+    public function arrowDown()
+    {
+        $total_result_index = $this->result->count() - 1;
+
+        if(is_null($this->hoveringIndex)) {
+            $this->hoveringIndex = 0;
+        } elseif ($total_result_index > $this->hoveringIndex)  {
+            $this->hoveringIndex = $this->hoveringIndex + 1;
+        }
+    }
+
+    public function arrowUp()
+    {
+        if($this->hoveringIndex === 0) {
+            $this->hoveringIndex = 0;
+        } else {
+            $this->hoveringIndex = $this->hoveringIndex - 1;
+        }
+    }
+
     public function render()
     {
         return view('livewire.auto-complete-input');
     }
 
-    public function selectOption($value, $label)
+    public function selectOption(?int $index)
     {
-        $this->input = $label;
-        $this->selectedValue = $value;
+        if(is_null($index)) {
+            return false;
+        }
+
+        $this->input = $this->result[$index]['label'];
+        $this->selectedValue = $this->result[$index]['value'];
         $this->hideResultBox();
     }
 
@@ -83,7 +110,13 @@ class AutoCompleteInput extends Component
         $limit = $this->getOption('limit');
         $offset = $this->getCurrentOffest();
 
-        $result = collect($class->$method($input, $limit, $offset));
+        $result = collect($class->$method($input, $limit, $offset))
+        ->map(function($lable, $value) {
+            return [
+                'label' => $lable,
+                'value' => $value
+            ];
+        })->values();
 
         $this->hasLoadMore = $result->isNotEmpty();
         $this->result = $this->result->merge($result);
@@ -107,15 +140,27 @@ class AutoCompleteInput extends Component
             $method = $this->getOption('source_method');
             $limit = $this->getOption('limit');
             $offset = $this->getCurrentOffest();
-            $result = collect($class->$method($input, $limit, $offset));
+            $result = collect($class->$method($input, $limit, $offset))
+            ->map(function($lable, $value) {
+                return [
+                    'label' => $lable,
+                    'value' => $value
+                ];
+            })->values();
+
             $this->hasLoadMore = $result->isNotEmpty();
             $this->result = $result;
             $this->setPrevOffset($offset);
         } else {
             $this->result = $this->passedData
-                            ->filter(function($label) use ($input) {
-                                return Str::contains($label, $input);
-                            });
+            ->filter(function($label) use ($input) {
+                return Str::contains($label, $input);
+            })->map(function($lable, $value) {
+                return [
+                    'label' => $lable,
+                    'value' => $value
+                ];
+            })->values();
         }
     }
 
@@ -145,8 +190,13 @@ class AutoCompleteInput extends Component
         $this->prevOffset = $offset;
     }
 
-    private function resetPrevOffset()
+    private function resetPrevOffset(): void
     {
         $this->prevOffset = null;
+    }
+
+    private function resetHoveringIndex(): void
+    {
+        $this->hoveringIndex = null;
     }
 }

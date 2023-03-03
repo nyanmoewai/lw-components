@@ -40,7 +40,7 @@
                     'options' => [
                         'min_chars' => 5,
                         'source_method' => 'filterResult',
-                        'limit' => 3
+                        'limit' => 50
                     ]
                 ])
             </div>
