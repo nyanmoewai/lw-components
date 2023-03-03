@@ -38,9 +38,9 @@
                     'input_name' => "account",
                     'source' => new \App\Models\Account,
                     'options' => [
-                        'min_chars' => 5,
+                        'min_chars' => 2,
                         'source_method' => 'filterResult',
-                        'limit' => 50
+                        'limit' => 10
                     ]
                 ])
             </div>

@@ -112,6 +112,7 @@ class AutoCompleteInput extends Component
 
     public function loadMore()
     {
+       sleep(4);
         if(false === $this->hasSource) {
             return false;
         }
@@ -130,8 +131,8 @@ class AutoCompleteInput extends Component
             ];
         })->values();
 
-        $this->hasLoadMore = $result->isNotEmpty();
         $this->result = $this->result->merge($result);
+        $this->hasLoadMore = $result->isNotEmpty();
         $this->setPrevOffset($offset);
     }
 
@@ -160,8 +161,8 @@ class AutoCompleteInput extends Component
                 ];
             })->values();
 
-            $this->hasLoadMore = $result->isNotEmpty();
             $this->result = $result;
+            $this->hasLoadMore = $result->isNotEmpty();
             $this->setPrevOffset($offset);
         } else {
             $this->result = $this->passedData

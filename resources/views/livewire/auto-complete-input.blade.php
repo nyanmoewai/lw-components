@@ -10,7 +10,7 @@
         >
 
         <ul class="dropdown-menu mt-2 border-0 shadow-sm w-100 overflow-auto {{ $isResultBoxShow ? 'show' : '' }}" style="max-height: 150px;" id="{{ $listElementId }}">
-            @if(empty($result))
+            @if($result->isEmpty())
                 <li class="text-center text-muted small">{{ $noResultText }}</li>
             @else
                 @foreach($result as $index => $item)
@@ -25,7 +25,8 @@
                     </li>
                 @endforeach
                 @if($hasLoadMore)
-                    <li class="text-center text-muted small" wire:click="loadMore">...</li>
+                    <li class="load-more d-none" wire:click="loadMore"></li>
+                    <li class="text-center text-muted small load-more" wire:loading.block wire:target="loadMore">...</li>
                 @endif
             @endif
         </ul>
@@ -51,10 +52,21 @@
             }
         });
 
+        var list_ele = document.getElementById('{{ $listElementId }}');
+
         window.addEventListener('click', function(e){
-            var element = document.getElementById('{{ $listElementId }}');
-            if (false === element.contains(e.target)){
-                element.classList.remove('show');
+            if (false === list_ele.contains(e.target)){
+                list_ele.classList.remove('show');
+            }
+        });
+
+        list_ele.addEventListener("scroll", function(e) {
+            if (list_ele.offsetHeight + list_ele.scrollTop >= list_ele.scrollHeight) {
+                var load_more = list_ele.querySelector('li.load-more');
+
+                if(load_more) {
+                    load_more.click();
+                }
             }
         });
     </script>
