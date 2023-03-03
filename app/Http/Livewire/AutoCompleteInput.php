@@ -21,6 +21,7 @@ class AutoCompleteInput extends Component
     public string $noResultText = 'No Result Found.';
     public bool $isResultBoxShow = false;
     public string $selectedValue = '';
+    public string $listElementId;
 
     private array $defaultOptions = [
         'source_method' => 'filter',
@@ -46,6 +47,7 @@ class AutoCompleteInput extends Component
         $this->inputName = $input_name;
         $this->result = collect([]);
         $this->setOptions($options);
+        $this->listElementId = Str::random(5);
     }
 
     public function updatedInput($input)
@@ -71,6 +73,11 @@ class AutoCompleteInput extends Component
         } elseif ($total_result_index > $this->hoveringIndex)  {
             $this->hoveringIndex = $this->hoveringIndex + 1;
         }
+
+        $this->emit("scroll-{$this->listElementId}", [
+            'id' => $this->listElementId,
+            'hovering_index' => $this->hoveringIndex
+        ]);
     }
 
     public function arrowUp()
@@ -80,6 +87,11 @@ class AutoCompleteInput extends Component
         } else {
             $this->hoveringIndex = $this->hoveringIndex - 1;
         }
+
+        $this->emit("scroll-{$this->listElementId}", [
+            'id' => $this->listElementId,
+            'hovering_index' => $this->hoveringIndex
+        ]);
     }
 
     public function render()
