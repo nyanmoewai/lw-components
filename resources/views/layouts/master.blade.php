@@ -12,6 +12,11 @@
         .selected {
             background: #f8f9fa;
         }
+
+        .answer-item:hover {
+            cursor: pointer;
+            background: #f0f0f0;
+        }
     </style>
     @livewireStyles
     @livewireScripts

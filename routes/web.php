@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/auto-complete-input', function () {
     return view('auto-complete-input');
 });
+
+Route::get('/multiple-choice-quiz', function() {
+    return view('multiple-choice-quiz');
+});
