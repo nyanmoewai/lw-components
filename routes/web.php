@@ -20,3 +20,7 @@ Route::get('/auto-complete-input', function () {
 Route::get('/multiple-choice-quiz', function() {
     return view('multiple-choice-quiz');
 });
+
+Route::get('/quiz', function() {
+    return view('quiz');
+});

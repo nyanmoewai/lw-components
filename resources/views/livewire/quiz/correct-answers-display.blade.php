@@ -4,7 +4,7 @@
     </div>
 
     <ul>
-        @foreach($answers as $answer => $result)
+        @foreach($answers as $answer)
             <li>{{ $answer }}</li>
         @endforeach
     </ul>

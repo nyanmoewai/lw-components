@@ -6,8 +6,8 @@ use Livewire\Component;
 class MultipleChoiceQuiz extends Component
 {
     public string $question;
+    public array $choices = [];
     public array $answers = [];
-    public array $correctAnswers = [];
 
     public array $selectedAnswers = [];
     public bool $showResult = false;
@@ -15,11 +15,11 @@ class MultipleChoiceQuiz extends Component
 
     protected $listeners = ['checkAnswer' => 'checkAnswer'];
 
-    public function mount(string $question, array $answers)
+    public function mount(string $question, array $choices, array $answers)
     {
         $this->question = $question;
+        $this->choices = $choices;
         $this->answers = $answers;
-        $this->correctAnswers = $this->getCorrectAnswers($answers);
     }
 
     public function toggleAnswer(string $answer)
@@ -29,16 +29,20 @@ class MultipleChoiceQuiz extends Component
         }
 
         if($this->isSelectedAnswer($answer)) {
-            unset($this->selectedAnswers[$answer]);
+            $index = array_search($answer, $this->selectedAnswers, true);
+
+            if(false !== $index) {
+                unset($this->selectedAnswers[$index]);
+            }
         } else {
-            $result = $this->answers[$answer];
-            $this->selectedAnswers[$answer] = $result;
+            $this->selectedAnswers[] = $answer;
         }
     }
 
     public function checkAnswer()
     {
         if(false === $this->isAnsweredAll()) {
+            $this->emitUp('failedValidation', 'Please select all correct answers.');
             return false;
         }
 
@@ -48,16 +52,21 @@ class MultipleChoiceQuiz extends Component
 
         $this->showResult = true;
 
-        $this->isCorrectAll = count(
-            array_filter($this->selectedAnswers, function($result) {
-                return false === $result;
-            }
-        )) <= 0;
+        $incorrectAnswers = array_filter(
+            array_unique($this->selectedAnswers),
+            function($answer) { return false === in_array($answer, $this->answers, true); }
+        );
+
+        $this->emitUp('checkedAnswer', [
+            'show_result' => $this->showResult,
+            'is_correct_all' => count($incorrectAnswers) <= 0,
+            'correct_answers' => $this->answers
+        ]);
     }
 
     public function isSelectedAnswer(string $answer): bool
     {
-        return isset($this->selectedAnswers[$answer]);
+        return in_array($answer, $this->selectedAnswers, true);
     }
 
     public function isAnsweredAll(): bool
@@ -67,14 +76,12 @@ class MultipleChoiceQuiz extends Component
 
     public function getRequiredAnswerCount(): int
     {
-        return count($this->correctAnswers);
+        return count($this->answers);
     }
 
-    private function getCorrectAnswers(array $answers): array
+    public function isCorrectChoice(string $choice): bool
     {
-        return array_filter($answers, function($result) {
-            return $result;
-        });
+        return in_array($choice, $this->answers, true);
     }
 
     public function render()
