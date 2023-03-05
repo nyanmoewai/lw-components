@@ -15,6 +15,11 @@
                 $currentQuiz['question'],
                 $currentQuiz['answers']
             ], key($currentQuizIndex))
+        @elseif($currentQuiz['type'] === 'question_and_answer')
+            @livewire('quiz.question-and-answer-quiz', [
+                $currentQuiz['question'],
+                $currentQuiz['answers']
+            ], key($currentQuizIndex))
         @endif
     </div>
     <div class="small text-danger">{{ $failedValidationMessage }}</div>

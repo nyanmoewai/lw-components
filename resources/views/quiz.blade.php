@@ -4,12 +4,15 @@
 <div class="row pt-5">
     <div class="col-12 col-md-6 offset-md-3">
         @livewire('quiz.quiz', [
-            // [
-            //     'type' => 'multiple_choice',
-            //     'question' => 'What is the color of an apple?',
-            //     'choices' => ['Red', 'Orange'],
-            //     'answers' => ['Red']
-            // ],
+            [
+                'type' => 'question_and_answer',
+                'question' => 'What is your name',
+                'answers' => [
+                    'Nyan',
+                    'Nyan Moe',
+                    'Nyan Moe Wai Thwin'
+                ]
+            ],
             [
                 'type' => 'fill_in_blank',
                 'question' => 'The color of an orange is {___} or {___}?',
