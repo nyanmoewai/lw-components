@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
+use Doctrine\Inflector\Rules\Ruleset;
+use Doctrine\Inflector\Rules\Transformations;
+use Doctrine\Inflector\Rules\Transformation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+       //
     }
 }

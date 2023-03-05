@@ -10,6 +10,11 @@
                 $currentQuiz['choices'],
                 $currentQuiz['answers']
             ], key($currentQuizIndex))
+        @elseif($currentQuiz['type'] === 'fill_in_blank')
+            @livewire('quiz.fill-in-blank-quiz', [
+                $currentQuiz['question'],
+                $currentQuiz['answers']
+            ], key($currentQuizIndex))
         @endif
     </div>
     <div class="small text-danger">{{ $failedValidationMessage }}</div>
@@ -30,11 +35,10 @@
     </div>
 
     @if(
-        $isCheckedAnswer
-        && $checkedAnswerData['show_result']
-        && false === $checkedAnswerData['is_correct_all']
+        $isCheckedAnswer && false === $checkedAnswerData['is_correct_all']
     )
         @include('livewire.quiz.correct-answers-display', [
+            'type' => $currentQuiz['type'],
             'answers' => $checkedAnswerData['correct_answers']
         ])
     @endif

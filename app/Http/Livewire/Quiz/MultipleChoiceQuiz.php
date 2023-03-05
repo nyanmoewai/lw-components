@@ -58,7 +58,6 @@ class MultipleChoiceQuiz extends Component
         );
 
         $this->emitUp('checkedAnswer', [
-            'show_result' => $this->showResult,
             'is_correct_all' => count($incorrectAnswers) <= 0,
             'correct_answers' => $this->answers
         ]);
@@ -74,7 +73,7 @@ class MultipleChoiceQuiz extends Component
         return count($this->selectedAnswers) >= $this->getRequiredAnswerCount();
     }
 
-    public function getRequiredAnswerCount(): int
+    private function getRequiredAnswerCount(): int
     {
         return count($this->answers);
     }

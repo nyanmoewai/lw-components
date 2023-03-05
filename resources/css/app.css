@@ -6,3 +6,8 @@
     cursor: pointer;
     background: #f0f0f0;
 }
+
+.blank-input {
+    width: 150px !important;
+    font-style: italic;
+}
