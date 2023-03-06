@@ -4,20 +4,20 @@
 <div class="row pt-5">
     <div class="col-12 col-md-6 offset-md-3">
         @livewire('quiz.quiz', [
-            [
-                'type' => 'rearrange_words',
-                'question' => 'Please rearrange words.',
-                'answers' => [
-                    'You',
-                    'are',
-                    'my',
-                    'angel',
-                    'you',
-                    'are',
-                    'so',
-                    'beautiful',
-                ]
-            ],
+            // [
+            //     'type' => 'rearrange_words',
+            //     'question' => 'Please rearrange words.',
+            //     'answers' => [
+            //         'You',
+            //         'are',
+            //         'my',
+            //         'angel',
+            //         'you',
+            //         'are',
+            //         'so',
+            //         'beautiful',
+            //     ]
+            // ],
             // [
             //     'type' => 'question_and_answer',
             //     'question' => 'What is your name',
@@ -49,6 +49,12 @@
             //     'choices' => ['Joe Biden', 'Donald Trump'],
             //     'answers' => ['Joe Biden']
             // ],
+            [
+                'type' => 'multiple_choice',
+                'question' => '{___} is the president of the U.S?',
+                'choices' => ['Joe Biden', 'Donald Trump'],
+                'answers' => ['Joe Biden']
+            ],
         ])
     </div>
 </div>
