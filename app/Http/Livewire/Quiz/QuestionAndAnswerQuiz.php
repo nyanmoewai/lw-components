@@ -2,7 +2,6 @@
 namespace App\Http\Livewire\Quiz;
 
 use Livewire\Component;
-use Illuminate\Support\Arr;
 
 class QuestionAndAnswerQuiz extends Component
 {
@@ -22,12 +21,13 @@ class QuestionAndAnswerQuiz extends Component
 
     public function checkAnswer()
     {
-        if(empty($this->submitAnswer)) {
+        if (empty($this->submitAnswer)) {
             $this->emitUp('failedValidation', 'Please answer the question.');
+
             return false;
         }
 
-        if($this->showResult) {
+        if ($this->showResult) {
             return false;
         }
 

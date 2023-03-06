@@ -20,9 +20,14 @@
                 $currentQuiz['question'],
                 $currentQuiz['answers']
             ], key($currentQuizIndex))
+        @elseif($currentQuiz['type'] === 'rearrange_words')
+            @livewire('quiz.rearrange-words-quiz', [
+                $currentQuiz['question'],
+                $currentQuiz['answers']
+            ], key($currentQuizIndex))
         @endif
     </div>
-    <div class="small text-danger">{{ $failedValidationMessage }}</div>
+    <div class="small text-danger mt-2">{{ $failedValidationMessage }}</div>
 
    <div class="mt-5 text-end">
         <button class="btn btn-outline-success" type="button" wire:click="checkAnswer" @disabled($isCheckingAnswer || $isCheckedAnswer)>
