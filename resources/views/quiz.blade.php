@@ -50,6 +50,17 @@
             //     'answers' => ['Joe Biden']
             // ],
             [
+                'type' => 'matching',
+                'question' => 'Please match the fruit and its color.',
+                'matches' => [
+                    'Apple' => 'Red',
+                    'Orange' => 'Orange',
+                    'Banana' => 'Yellow',
+                    'Grape' => 'Purple',
+                    'Guava' => 'Green'
+                ]
+            ],
+            [
                 'type' => 'multiple_choice',
                 'question' => '{___} is the president of the U.S?',
                 'choices' => ['Joe Biden', 'Donald Trump'],
@@ -59,11 +70,3 @@
     </div>
 </div>
 @endsection
-
-@push('script')
-    <script>
-        document.getElementById('btn-check-answer').addEventListener('click', function(e) {
-            Livewire.emit('checkAnswer');
-        });
-    </script>
-@endpush

@@ -25,6 +25,11 @@
                 $currentQuiz['question'],
                 $currentQuiz['answers']
             ], key($currentQuizIndex))
+        @elseif($currentQuiz['type'] === 'matching')
+            @livewire('quiz.matching-quiz', [
+                $currentQuiz['question'],
+                $currentQuiz['matches']
+            ], key($currentQuizIndex))
         @endif
     </div>
     <div class="small text-danger mt-2">{{ $failedValidationMessage }}</div>
